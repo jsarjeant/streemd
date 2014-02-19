@@ -2,6 +2,7 @@ package com.example.streemd;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +53,9 @@ public class SignIn_VP extends Activity{
 					Log.d(null, "password = " + password);
 					if(checkCredentials(username, password)) {
 						Log.d(null, "Valid user");
+						Intent intent = new Intent(SignIn_VP.this, UserFeed_VP.class);
+						startActivity(intent);
+						
 					}
 					else {
 						Log.d(null, "Invalid user");
@@ -72,7 +76,7 @@ public class SignIn_VP extends Activity{
 	}
 	
 	public boolean checkCredentials(String username, String password) {
-		return false;
+		return true;
 	}
 
 }
