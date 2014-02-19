@@ -25,13 +25,29 @@
 		     android:layout_width="wrap_content"
 		     android:layout_height="wrap_content"
 		     android:ems="10" 
-		     android:hint="@string/password">
+		     android:hint="@string/password"
+		     android:inputType="textPassword">
 		 </EditText>
 		 
-        <Button
-		     android:id="@+id/signInButton"
-		     android:layout_width="wrap_content"
-		     android:layout_height="wrap_content"
-		     android:text="@string/sign_in" />
+        <LinearLayout android:orientation="horizontal"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content">
+			
+            <Button
+			     android:id="@+id/testSignInButton"
+			     android:layout_width="wrap_content"
+			     android:layout_height="wrap_content"
+			     android:text="@string/test_user" />
+            
+	        <Button
+			     android:id="@+id/signInButton"
+			     android:layout_width="wrap_content"
+			     android:layout_height="wrap_content"
+			     android:text="@string/sign_in" />
+	        
+        
+        </LinearLayout>
+		
+        
 
 </LinearLayout>
