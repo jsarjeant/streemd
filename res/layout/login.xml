@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:gravity="center">
+    	
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_login"
+        android:textSize = "42sp"  />
+    	
+        <EditText
+		     android:id="@+id/usernameEditText"
+		     android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:ems="10" 
+		     android:hint="@string/username">
+		     <requestFocus />
+		 </EditText>
+		 
+        <EditText
+		     android:id="@+id/passwordEditText"
+		     android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:ems="10" 
+		     android:hint="@string/password">
+		 </EditText>
+		 
+        <Button
+		     android:id="@+id/signInButton"
+		     android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:text="@string/sign_in" />
+
+</LinearLayout>
