@@ -6,6 +6,5 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="C:/Users/Joseph/Desktop/Programming/CSC 436/Youtube Player API/libs/YouTubeAndroidPlayerApi.jar"/>
-	<classpathentry kind="src" path="/YouTubeAndroidAPIDemo"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
