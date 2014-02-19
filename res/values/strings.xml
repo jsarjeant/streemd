@@ -4,5 +4,6 @@
     <string name="app_name">streemd</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="test_string">This is a test string designed to fill space</string>
 
 </resources>
