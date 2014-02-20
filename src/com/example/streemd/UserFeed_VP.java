@@ -2,60 +2,62 @@ package com.example.streemd;
 
 import java.util.ArrayList;
 
-import com.example.streemd.Post;
-import com.example.streemd.PostListAdapter;
-import com.google.android.youtube.player.YouTubeBaseActivity;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayer.OnInitializedListener;
 import com.google.android.youtube.player.YouTubePlayer.Provider;
-import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-import android.widget.ListView;
-import android.widget.Toast;
-
-public class UserFeed_VP extends YouTubeBaseActivity implements OnInitializedListener {
+public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInitializedListener {
    
    protected ArrayList<Post> m_arrPostList;
    
    protected PostListAdapter m_postAdapter;
    
    protected ListView m_vwPostLayout;
-   protected YouTubePlayerView m_vwYouTubeView;
+   protected YouTubePlayerSupportFragment youTubePlayerSupportFragment;
    protected static YouTubePlayer m_youTubePlayer;
 
    @Override
-   protected void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
+   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+      super.onCreateView(inflater, container, savedInstanceState);
       
       this.m_arrPostList = new ArrayList<Post>();
-      this.m_postAdapter = new PostListAdapter(this, this.m_arrPostList);
       
-      initLayout();
-      //TODO Pull in posts from DB
-      addPost(new Post("wKJ9KzGQq0w", "Youtube Test Video", "This is a video to be used in YouTube Player API demos."));
-      addPost(new Post("d8i-H6MVl18","Introduction to android - android tutorial for bigginers to advanced", "Hi i am posting all the videos that helped me in learning android. now i am having 3 years of mobile experience and any one want to learn android subscribe for my channel and ask any doubts in android.i will explain you.Please subscribe for channel."));
-      addPost(new Post("d2ZNaLQD60Y", "Game of Thrones Trailer #2 - Vengeance (HBO)", "Check out the new GOT trailer!! Only 6 more weeks I can't wait!"));
+      
+      this.m_postAdapter = new PostListAdapter(getActivity().getApplicationContext(), this.m_arrPostList);
+      
+      View rootView = inflater.inflate(R.layout.user_feed, container, false);
+      
+      this.m_vwPostLayout = (ListView) rootView.findViewById(R.id.postListView);
+      this.m_vwPostLayout.setAdapter(m_postAdapter);
+      
+      this.youTubePlayerSupportFragment = (YouTubePlayerSupportFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
+      this.youTubePlayerSupportFragment.initialize(DeveloperKey.DEVELOPER_KEY, UserFeed_VP.this);
+      
+      for (String s : this.getResources().getStringArray(R.array.post_array)) {
+         addPost(new Post(s));
+      }
+      
+      return rootView;
    }
 
-   @Override
+   /*@Override
    public boolean onCreateOptionsMenu(Menu menu) {
       // Inflate the menu; this adds items to the action bar if it is present.
       getMenuInflater().inflate(R.menu.main, menu);
       return true;
-   }
+   }*/
    
    protected void initLayout() {
-      this.setContentView(R.layout.user_feed);
       
-      this.m_vwPostLayout = (ListView) this.findViewById(R.id.postListView);
-      this.m_vwPostLayout.setAdapter(m_postAdapter);
-      
-      this.m_vwYouTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
-      this.m_vwYouTubeView.initialize(DeveloperKey.DEVELOPER_KEY, this);
    }
    
    public void addPost(Post post) {
@@ -67,7 +69,7 @@ public class UserFeed_VP extends YouTubeBaseActivity implements OnInitializedLis
    public void onInitializationFailure(Provider arg0,
       YouTubeInitializationResult arg1) {
       String toastText = "Video Player initialization failed....";
-      Toast toast = Toast.makeText(this, toastText, Toast.LENGTH_LONG);
+      Toast toast = Toast.makeText(getActivity(), toastText, Toast.LENGTH_LONG);
       toast.show();
       
    }
@@ -78,7 +80,7 @@ public class UserFeed_VP extends YouTubeBaseActivity implements OnInitializedLis
       if (!wasRestored) {
          this.m_youTubePlayer = player;
          String toastText = "Video Player initialization suceeded....";
-         Toast toast = Toast.makeText(this, toastText, Toast.LENGTH_LONG);
+         Toast toast = Toast.makeText(getActivity(), toastText, Toast.LENGTH_LONG);
          toast.show();
       }
       

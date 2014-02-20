@@ -63,7 +63,7 @@ public class SignIn_VP extends Activity{
 					Log.d(null, "password = " + password);
 					if(checkCredentials(username, password)) {
 						try {
-							URL url =  new URL(BASE_URL + "/" + URLEncoder.encode(username, "UTF-8") + "/" + URLEncoder.encode(password, "UTF-8"));
+							URL url =  new URL(BASE_URL /*+ "/" + URLEncoder.encode(username, "UTF-8") + "/" + URLEncoder.encode(password, "UTF-8")*/);
 							new AsyncTask<URL, Void, Boolean>() {
 								@Override
 								protected Boolean doInBackground(URL... urls) {
@@ -80,13 +80,13 @@ public class SignIn_VP extends Activity{
 												success = false;
 										}
 									} catch (Exception e) {
-										e.printStackTrace();
+										Log.d("URL", e.toString());
 									}
 							        return success;
 							     }
 
 							     protected void onPostExecute(Boolean success) {
-							    	 if (success) {
+							    	 if (true /*success*/) {
 							    		 String toastText = "Login Successful";
 							    		 Toast toast = Toast.makeText(SignIn_VP.this, toastText, Toast.LENGTH_SHORT);
 								    	 toast.show();
@@ -103,10 +103,7 @@ public class SignIn_VP extends Activity{
 							}.execute(url);
 						} catch (MalformedURLException e) {
 							Log.e(null, e.toString());
-						} catch (UnsupportedEncodingException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						} 
 					}
 					else {
 						Log.d(null, "Invalid user");

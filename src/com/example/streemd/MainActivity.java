@@ -51,7 +51,7 @@ public class MainActivity extends FragmentActivity {
         
         switch(position) {
         case 0:
-        	Fragment fragment = new Fragment();
+        	Fragment fragment = new UserFeed_VP();
         	FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                            .replace(R.id.content_frame, fragment)
