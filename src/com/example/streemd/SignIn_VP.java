@@ -1,8 +1,15 @@
 package com.example.streemd;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.Scanner;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SignIn_VP extends Activity{
 	
@@ -24,6 +32,8 @@ public class SignIn_VP extends Activity{
 	
 	/** Input for entering password */
 	protected EditText m_vwPasswordEditText;
+	
+	protected final static String BASE_URL = "https://streemd.herokuapp.com/api/sign_in";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +62,51 @@ public class SignIn_VP extends Activity{
 					Log.d(null, "username = " + username);
 					Log.d(null, "password = " + password);
 					if(checkCredentials(username, password)) {
-						Log.d(null, "Valid user");
-						Intent intent = new Intent(SignIn_VP.this, UserFeed_VP.class);
-						startActivity(intent);
-						
+						try {
+							URL url =  new URL(BASE_URL + "/" + URLEncoder.encode(username, "UTF-8") + "/" + URLEncoder.encode(password, "UTF-8"));
+							new AsyncTask<URL, Void, Boolean>() {
+								@Override
+								protected Boolean doInBackground(URL... urls) {
+									boolean success = false;
+									try {
+										Scanner in;
+										in = new Scanner(urls[0].openStream());
+										if(in.hasNextLine()) {
+											String response = in.nextLine();
+											Log.d("RESPONSE: ", response);
+											if(response.equals("true"))
+												success = true;
+											else 
+												success = false;
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+							        return success;
+							     }
+
+							     protected void onPostExecute(Boolean success) {
+							    	 if (success) {
+							    		 String toastText = "Login Successful";
+							    		 Toast toast = Toast.makeText(SignIn_VP.this, toastText, Toast.LENGTH_SHORT);
+								    	 toast.show();
+								    	 Intent intent = new Intent(SignIn_VP.this, UserFeed_VP.class);
+								    	 startActivity(intent);
+							    	 }
+							    	 else {
+							    		 String toastText = "Login Failed";
+							    		 Toast toast = Toast.makeText(SignIn_VP.this, toastText, Toast.LENGTH_SHORT);
+								    	 toast.show();
+							    	 }
+							     }
+
+							}.execute(url);
+						} catch (MalformedURLException e) {
+							Log.e(null, e.toString());
+						} catch (UnsupportedEncodingException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 					else {
 						Log.d(null, "Invalid user");
