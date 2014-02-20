@@ -90,7 +90,7 @@ public class SignIn_VP extends Activity{
 							    		 String toastText = "Login Successful";
 							    		 Toast toast = Toast.makeText(SignIn_VP.this, toastText, Toast.LENGTH_SHORT);
 								    	 toast.show();
-								    	 Intent intent = new Intent(SignIn_VP.this, UserFeed_VP.class);
+								    	 Intent intent = new Intent(SignIn_VP.this, MainActivity.class);
 								    	 startActivity(intent);
 							    	 }
 							    	 else {
