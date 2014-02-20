@@ -11,6 +11,12 @@
         <item>wKJ9KzGQq0w</item>
         <item >wKJ9KzGQq0w</item>
     </string-array>
+    <string-array name="navigation_drawer">
+        <item>Feed</item>
+        <item>Venus</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+    </string-array>
     <string name="sign_in">Sign In</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
