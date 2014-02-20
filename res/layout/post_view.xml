@@ -28,5 +28,5 @@
        android:layout_height="wrap_content"
        android:layout_weight="0.15"
        android:button="@null"
-       android:background="@drawable/play_button" />
+       android:background="@drawable/dark_play_button" />
 </LinearLayout>
