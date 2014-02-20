@@ -69,7 +69,7 @@ public class SignIn_VP extends Activity{
 								@Override
 								protected Boolean doInBackground(URL... urls) {
 									boolean success = false;
-									Scanner in;
+									Scanner in = null;
 									try {
 										in = new Scanner(urls[0].openStream());
 										if(in.hasNextLine()) {
@@ -78,9 +78,12 @@ public class SignIn_VP extends Activity{
 											if(response.equals("true"))
 												success = true;
 										}
-										in.close();
 									} catch (IOException e) {
 										Log.d(null, e.toString());
+									} finally {
+										if(in != null) {
+											in.close();
+										}
 									}
 									
 							        return success;
