@@ -35,10 +35,10 @@ public class UserFeed_VP extends YouTubeBaseActivity implements OnInitializedLis
       this.m_postAdapter = new PostListAdapter(this, this.m_arrPostList);
       
       initLayout();
-      
-      for (String s : this.getResources().getStringArray(R.array.post_array)) {
-         addPost(new Post(s));
-      }
+      //TODO Pull in posts from DB
+      addPost(new Post("wKJ9KzGQq0w", "Youtube Test Video", "This is a video to be used in YouTube Player API demos."));
+      addPost(new Post("d8i-H6MVl18","Introduction to android - android tutorial for bigginers to advanced", "Hi i am posting all the videos that helped me in learning android. now i am having 3 years of mobile experience and any one want to learn android subscribe for my channel and ask any doubts in android.i will explain you.Please subscribe for channel."));
+      addPost(new Post("d2ZNaLQD60Y", "Game of Thrones Trailer #2 - Vengeance (HBO)", "Check out the new GOT trailer!! Only 6 more weeks I can't wait!"));
    }
 
    @Override

@@ -14,6 +14,12 @@
          this.title = "Test Title";
          this.description = "Test Description";
       }
+      
+      public Post(String youTubeId, String title, String description) {
+         this.youtubeId = youTubeId;
+         this.title = title;
+         this.description = description;
+      }
    
       public String getYoutubeId() {
          return this.youtubeId;
