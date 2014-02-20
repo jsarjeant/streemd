@@ -1,5 +1,6 @@
 package com.example.streemd;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -68,8 +69,8 @@ public class SignIn_VP extends Activity{
 								@Override
 								protected Boolean doInBackground(URL... urls) {
 									boolean success = false;
+									Scanner in;
 									try {
-										Scanner in;
 										in = new Scanner(urls[0].openStream());
 										if(in.hasNextLine()) {
 											String response = in.nextLine();
@@ -77,9 +78,11 @@ public class SignIn_VP extends Activity{
 											if(response.equals("true"))
 												success = true;
 										}
-									} catch (Exception e) {
-										Log.d("URL", e.toString());
+										in.close();
+									} catch (IOException e) {
+										Log.d(null, e.toString());
 									}
+									
 							        return success;
 							     }
 
@@ -102,9 +105,9 @@ public class SignIn_VP extends Activity{
 						} catch (MalformedURLException e) {
 							Log.e(null, e.toString());
 						} catch (UnsupportedEncodingException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							Log.e(null, e1.toString());
 						} 
+						
 					}
 					else {
 						Log.d(null, "Invalid user");
