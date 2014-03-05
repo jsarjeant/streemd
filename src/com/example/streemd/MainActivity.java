@@ -21,7 +21,7 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        StreemdApplication appState = (StreemdApplication) this.getApplication();
+        StreemdApplication appState = ((StreemdApplication) this.getApplication());
         String toastText = "Welcome " +  appState.session.getUsername() + "!";
 		Toast toast = Toast.makeText(this, toastText, Toast.LENGTH_SHORT);
 		toast.show();
@@ -66,7 +66,10 @@ public class MainActivity extends FragmentActivity {
              fragment = new SearchUsers();
              break;
           case 3:
-             fragment = new Profile();
+        	  fragment = new MyProfile();
+        	  Bundle args = new Bundle();
+        	  args.putString("username", ((StreemdApplication) this.getApplication()).session.getUsername());
+        	  fragment.setArguments(args);
        }
         // Insert the fragment by replacing any existing fragment
        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();

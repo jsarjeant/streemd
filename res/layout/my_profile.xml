@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/userFeed"
+    android:id="@+id/my_profile"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
     <fragment
      android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
-     android:id="@+id/youtube_profile_fragment"
+     android:id="@+id/youtube_my_profile_fragment"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"/>
     
@@ -16,23 +16,15 @@
     	android:layout_height="wrap_content"
     	android:padding="10dip">
         
-		 <TextView android:id="@+id/usernameText"
+		 <TextView android:id="@+id/my_username_text"
               android:layout_width="wrap_content"
-              android:layout_height="wrap_content" 
-              android:text="exampleUser"
+              android:layout_height="wrap_content"
               android:textSize="28sp"/>
 		 
-		 <Button
-		     android:id="@+id/followButton"
-		     android:layout_width="wrap_content"
-		     android:layout_height="wrap_content"
-		     android:text="Follow"
-		     android:layout_alignParentRight="true" />
-        
     </RelativeLayout>
     
     <ListView  
-       android:id="@+id/profileListView"
+       android:id="@+id/my_profile_post_list"
        android:orientation="vertical"
        android:layout_width="fill_parent"
        android:layout_height="fill_parent"/>
