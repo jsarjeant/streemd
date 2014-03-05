@@ -43,7 +43,6 @@
                   
                   YouTubePlayerView ytpv = (YouTubePlayerView) findViewById(R.id.youtube_view);
                   ytpv.initialize(DeveloperKey.DEVELOPER_KEY, PostView.this);*/
-                  
                      YouTubePlayer player = UserFeed_VP.getYouTubePlayer();
                      player.loadVideo(m_Post.getYoutubeId());
                      Log.d("jsarjean", "On click function");
@@ -69,8 +68,7 @@
       }
    
       @Override
-      public void onInitializationSuccess(Provider provider, YouTubePlayer player,
-      boolean wasRestored) {
+      public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
          if (!wasRestored) {
             player.loadVideo(this.m_Post.getYoutubeId());
          }

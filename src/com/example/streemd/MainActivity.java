@@ -46,18 +46,25 @@ public class MainActivity extends FragmentActivity {
        // Bundle args = new Bundle();
         //args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
         //fragment.setArguments(args);
+       Fragment fragment = null;
+       FragmentManager fragmentManager = getSupportFragmentManager();
         
-        switch(position) {
-        case 0:
-        	Fragment fragment = new UserFeed_VP();
-        	FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                           .replace(R.id.content_frame, fragment)
-                           .commit();
-        }
+       switch(position) {
+          case 0:
+             fragment = new UserFeed_VP();
+             break;  
+          case 1:
+             fragment = new SearchVideos();
+             break;
+          case 2:
+             fragment = new SearchUsers();
+             break;
+          case 3:
+             fragment = new Profile();
+       }
         // Insert the fragment by replacing any existing fragment
-        
-
+       fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+       
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(mPlanetTitles[position]);
