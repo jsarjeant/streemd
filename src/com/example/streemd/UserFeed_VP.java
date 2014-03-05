@@ -84,7 +84,7 @@ public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInit
    	  	StreemdApplication appState = ((StreemdApplication) this.getActivity().getApplication());
    	  	String username = appState.session.getUsername();
    	  	
-			URL url =  new URL(BASE_URL + "/get/" + URLEncoder.encode(username, "UTF-8") + "/All/" + pageNumber);
+			URL url =  new URL(BASE_URL + "/feed/" + URLEncoder.encode(username, "UTF-8") + "/All/" + pageNumber);
 			new AsyncTask<URL, Void, Boolean>() {
 				@Override
 				protected Boolean doInBackground(URL... urls) {
