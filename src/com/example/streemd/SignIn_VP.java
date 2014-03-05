@@ -56,8 +56,8 @@ public class SignIn_VP extends Activity{
 	protected void initSignInListener() {
 		m_vwSignInButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				String username = m_vwUsernameEditText.getText().toString();
-				String password = m_vwPasswordEditText.getText().toString();
+				final String username = m_vwUsernameEditText.getText().toString();
+				final String password = m_vwPasswordEditText.getText().toString();
 				
 				if(!username.equals("") && !username.equals(null) && !password.equals("") && !password.equals(null)) {
 					Log.d(null, "username = " + username);
@@ -79,7 +79,7 @@ public class SignIn_VP extends Activity{
 												success = true;
 										}
 									} catch (IOException e) {
-										Log.d(null, e.toString());
+										Log.d("CredsCheckError!", e.toString());
 									} finally {
 										if(in != null) {
 											in.close();
@@ -91,9 +91,10 @@ public class SignIn_VP extends Activity{
 
 							     protected void onPostExecute(Boolean success) {
 							    	 if (success) {
-							    		 String toastText = "Login Successful";
-							    		 Toast toast = Toast.makeText(SignIn_VP.this, toastText, Toast.LENGTH_SHORT);
-								    	 toast.show();
+							    		 StreemdApplication appState = ((StreemdApplication) SignIn_VP.this.getApplication());
+						    			 appState.session.setUsername(username);
+						    			 appState.session.setPassword(password);
+						    			 
 								    	 Intent intent = new Intent(SignIn_VP.this, MainActivity.class);
 								    	 startActivity(intent);
 							    	 }

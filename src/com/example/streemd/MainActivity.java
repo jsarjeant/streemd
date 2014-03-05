@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
     private String[] mPlanetTitles;
@@ -19,6 +20,11 @@ public class MainActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        StreemdApplication appState = (StreemdApplication) this.getApplication();
+        String toastText = "Welcome " +  appState.session.getUsername() + "!";
+		Toast toast = Toast.makeText(this, toastText, Toast.LENGTH_SHORT);
+		toast.show();
         
         mPlanetTitles = getResources().getStringArray(R.array.navigation_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
