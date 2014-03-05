@@ -79,53 +79,6 @@ public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInit
       this.youTubePlayerSupportFragment.initialize(DeveloperKey.DEVELOPER_KEY, UserFeed_VP.this);
    }
    
-   public void getPosts(int pageNumber) {
-	   try {
-   	  	StreemdApplication appState = ((StreemdApplication) this.getActivity().getApplication());
-   	  	String username = appState.session.getUsername();
-   	  	
-			URL url =  new URL(BASE_URL + "/feed/" + URLEncoder.encode(username, "UTF-8") + "/All/" + pageNumber);
-			new AsyncTask<URL, Void, Boolean>() {
-				@Override
-				protected Boolean doInBackground(URL... urls) {
-					Scanner in = null;
-					String response = "";
-					List<Post> posts = null;
-					
-					try {
-						in = new Scanner(urls[0].openStream());
-						while(in.hasNext()) {
-							response += " " + in.next();
-						}
-						Log.d("RESPONSE: ", response);
-						
-						Gson gson = new Gson();
-						posts = gson.fromJson(response, new TypeToken<List<Post>>(){}.getType());
-						m_arrPostList.addAll(posts);
-						
-					} catch (IOException e) {
-						Log.d("GetPostsError!", e.toString());
-					} finally {
-						if(in != null) {
-							in.close();
-						}
-						getActivity().runOnUiThread(new Runnable() {
-						     @Override
-						     public void run() {
-						    	 m_postAdapter.notifyDataSetChanged();
-						     }
-						});
-					}
-			        return false;
-			     }
-			}.execute(url);
-		} catch (MalformedURLException e) {
-			Log.e(null, e.toString());
-		} catch (UnsupportedEncodingException e1) {
-			Log.e(null, e1.toString());
-		} 
-   }
-   
    public void addPost(Post post) {
       this.m_arrPostList.add(post);
       this.m_postAdapter.notifyDataSetChanged();
@@ -198,5 +151,52 @@ public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInit
    
    public static YouTubePlayer getYouTubePlayer() {
       return m_youTubePlayer;
+   }
+   
+   public void getPosts(int pageNumber) {
+	   try {
+   	  	StreemdApplication appState = ((StreemdApplication) this.getActivity().getApplication());
+   	  	String username = appState.session.getUsername();
+   	  	
+			URL url =  new URL(BASE_URL + "/feed/" + URLEncoder.encode(username, "UTF-8") + "/All/" + pageNumber);
+			new AsyncTask<URL, Void, Boolean>() {
+				@Override
+				protected Boolean doInBackground(URL... urls) {
+					Scanner in = null;
+					String response = "";
+					List<Post> posts = null;
+					
+					try {
+						in = new Scanner(urls[0].openStream());
+						while(in.hasNext()) {
+							response += " " + in.next();
+						}
+						Log.d("RESPONSE: ", response);
+						
+						Gson gson = new Gson();
+						posts = gson.fromJson(response, new TypeToken<List<Post>>(){}.getType());
+						m_arrPostList.addAll(posts);
+						
+					} catch (IOException e) {
+						Log.d("GetPostsError!", e.toString());
+					} finally {
+						if(in != null) {
+							in.close();
+						}
+						getActivity().runOnUiThread(new Runnable() {
+						     @Override
+						     public void run() {
+						    	 m_postAdapter.notifyDataSetChanged();
+						     }
+						});
+					}
+			        return false;
+			     }
+			}.execute(url);
+		} catch (MalformedURLException e) {
+			Log.e(null, e.toString());
+		} catch (UnsupportedEncodingException e1) {
+			Log.e(null, e1.toString());
+		} 
    }
 }
