@@ -1,11 +1,21 @@
 package com.example.streemd;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore.Video;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +29,9 @@ import com.google.android.youtube.player.YouTubePlayer.OnInitializedListener;
 import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
 import com.google.android.youtube.player.YouTubePlayer.Provider;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInitializedListener {
    
@@ -31,6 +44,8 @@ public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInit
    protected Fragment m_videoListFragment;
    protected static YouTubePlayer m_youTubePlayer;
    protected View rootView;
+   
+   protected final static String BASE_URL = "https://streemd.herokuapp.com/api/posts";
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,28 +54,13 @@ public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInit
       this.m_arrPostList = new ArrayList<Post>();
       this.m_postAdapter = new PostListAdapter(getActivity().getApplicationContext(), this.m_arrPostList);
       
-      
       this.initLayout();
       
       rootView = inflater.inflate(R.layout.user_feed, container, false);
       this.m_vwPostLayout = (ListView) rootView.findViewById(R.id.postListView);
       this.m_vwPostLayout.setAdapter(m_postAdapter);
       
-    //TODO Pull in posts from DB
-      /*addPost(new Post("d2ZNaLQD60Y", "Test Post"));*/
-      addPost(new Post("wKJ9KzGQq0w", "Youtube Test Video", "This is a video to be used in YouTube Player API demos."));
-      addPost(new Post("d8i-H6MVl18","Introduction to android - android tutorial for bigginers to advanced", "Hi i am posting all the videos that helped me in learning android. now i am having 3 years of mobile experience and any one want to learn android subscribe for my channel and ask any doubts in android.i will explain you.Please subscribe for channel."));
-      addPost(new Post("d2ZNaLQD60Y", "Game of Thrones Trailer #2 - Vengeance (HBO)", "Check out the new GOT trailer!! Only 6 more weeks I can't wait!"));
-      addPost(new Post("wKJ9KzGQq0w", "Youtube Test Video", "This is a video to be used in YouTube Player API demos."));
-      addPost(new Post("d8i-H6MVl18","Introduction to android - android tutorial for bigginers to advanced", "Hi i am posting all the videos that helped me in learning android. now i am having 3 years of mobile experience and any one want to learn android subscribe for my channel and ask any doubts in android.i will explain you.Please subscribe for channel."));
-      addPost(new Post("d2ZNaLQD60Y", "Game of Thrones Trailer #2 - Vengeance (HBO)", "Check out the new GOT trailer!! Only 6 more weeks I can't wait!"));
-      addPost(new Post("wKJ9KzGQq0w", "Youtube Test Video", "This is a video to be used in YouTube Player API demos."));
-      addPost(new Post("d8i-H6MVl18","Introduction to android - android tutorial for bigginers to advanced", "Hi i am posting all the videos that helped me in learning android. now i am having 3 years of mobile experience and any one want to learn android subscribe for my channel and ask any doubts in android.i will explain you.Please subscribe for channel."));
-      addPost(new Post("d2ZNaLQD60Y", "Game of Thrones Trailer #2 - Vengeance (HBO)", "Check out the new GOT trailer!! Only 6 more weeks I can't wait!"));
-      addPost(new Post("wKJ9KzGQq0w", "Youtube Test Video", "This is a video to be used in YouTube Player API demos."));
-      addPost(new Post("d8i-H6MVl18","Introduction to android - android tutorial for bigginers to advanced", "Hi i am posting all the videos that helped me in learning android. now i am having 3 years of mobile experience and any one want to learn android subscribe for my channel and ask any doubts in android.i will explain you.Please subscribe for channel."));
-      addPost(new Post("d2ZNaLQD60Y", "Game of Thrones Trailer #2 - Vengeance (HBO)", "Check out the new GOT trailer!! Only 6 more weeks I can't wait!"));
-          
+      getPosts(1);
       
       return rootView;
    }
@@ -77,6 +77,53 @@ public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInit
       ft.replace(R.id.youtube_fragment, this.youTubePlayerSupportFragment);
       ft.commit();
       this.youTubePlayerSupportFragment.initialize(DeveloperKey.DEVELOPER_KEY, UserFeed_VP.this);
+   }
+   
+   public void getPosts(int pageNumber) {
+	   try {
+   	  	StreemdApplication appState = ((StreemdApplication) this.getActivity().getApplication());
+   	  	String username = appState.session.getUsername();
+   	  	
+			URL url =  new URL(BASE_URL + "/get/" + URLEncoder.encode(username, "UTF-8") + "/All/" + pageNumber);
+			new AsyncTask<URL, Void, Boolean>() {
+				@Override
+				protected Boolean doInBackground(URL... urls) {
+					Scanner in = null;
+					String response = "";
+					List<Post> posts = null;
+					
+					try {
+						in = new Scanner(urls[0].openStream());
+						while(in.hasNext()) {
+							response += " " + in.next();
+						}
+						Log.d("RESPONSE: ", response);
+						
+						Gson gson = new Gson();
+						posts = gson.fromJson(response, new TypeToken<List<Post>>(){}.getType());
+						m_arrPostList.addAll(posts);
+						
+					} catch (IOException e) {
+						Log.d("GetPostsError!", e.toString());
+					} finally {
+						if(in != null) {
+							in.close();
+						}
+						getActivity().runOnUiThread(new Runnable() {
+						     @Override
+						     public void run() {
+						    	 m_postAdapter.notifyDataSetChanged();
+						     }
+						});
+					}
+			        return false;
+			     }
+			}.execute(url);
+		} catch (MalformedURLException e) {
+			Log.e(null, e.toString());
+		} catch (UnsupportedEncodingException e1) {
+			Log.e(null, e1.toString());
+		} 
    }
    
    public void addPost(Post post) {
@@ -97,9 +144,6 @@ public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInit
    public void onInitializationSuccess(Provider provider, YouTubePlayer player,
       boolean wasRestored) {
       if (!wasRestored) {
-         String toastText = "Video Player initialization success!";
-         Toast toast = Toast.makeText(getActivity(), toastText, Toast.LENGTH_LONG);
-         toast.show();
          m_youTubePlayer = player;
          FragmentManager fm = getFragmentManager();
          FragmentTransaction ft = fm.beginTransaction();

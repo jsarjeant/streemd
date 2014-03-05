@@ -14,12 +14,13 @@ import android.widget.Toast;
 import com.google.android.youtube.player.YouTubePlayer;
 
    public class Post {
-      private String youtubeId;
+      private String youtube_id;
       private String title;
       private String description;
+      private String category;
    
       public Post(String youtubeId, String description) {
-         this.youtubeId = youtubeId;
+         this.youtube_id = youtubeId;
       
          try {
             URL url = new URL("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + youtubeId + "&fields=items%2Fsnippet%2Ftitle&key=" + DeveloperKey.DEVELOPER_KEY);
@@ -55,18 +56,19 @@ import com.google.android.youtube.player.YouTubePlayer;
          this.description = description;
       }
       
-      public Post(String youTubeId, String title, String description) {
-         this.youtubeId = youTubeId;
+      public Post(String youTubeId, String title, String description, String category) {
+         this.youtube_id = youTubeId;
          this.title = title;
          this.description = description;
+         this.category = category;
       }
    
       public String getYoutubeId() {
-         return this.youtubeId;
+         return this.youtube_id;
       }
    
       public void setYoutubeId(String youtubeId) {
-         this.youtubeId = youtubeId;
+         this.youtube_id = youtubeId;
       }
    
       public String getTitle() {
@@ -84,4 +86,12 @@ import com.google.android.youtube.player.YouTubePlayer;
       public void setDescription(String description) {
          this.description = description;
       }
+
+	public String getCategory() {
+		return category;
+	}
+	
+	public void setCategory(String category) {
+		this.category = category;
+	}
    }
