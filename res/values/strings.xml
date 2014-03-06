@@ -55,5 +55,7 @@
     
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
-
+    
+	<string name="empty_feed">No Posts to show. Create posts or follow users!</string>
+	<string name="empty_profile">No Posts.</string>
 </resources>
