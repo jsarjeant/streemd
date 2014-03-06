@@ -47,5 +47,8 @@
     <string name="edit_description">Enter a description.</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
+    
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
 
 </resources>

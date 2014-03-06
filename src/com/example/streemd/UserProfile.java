@@ -73,7 +73,7 @@ public class UserProfile extends YouTubePlayerSupportFragment implements OnIniti
 				String currentUser = ((StreemdApplication) getActivity().getApplication()).session.getUsername();
 				String otherUser = getArguments().get("username").toString();;
 				Button button = (Button) view;
-				if(button.getText().equals("Follow"))
+				if(button.getText().equals(getResources().getString(R.string.follow)))
 					followUser(currentUser, otherUser);
 				else
 					unfollowUser(currentUser, otherUser);
@@ -237,9 +237,9 @@ public class UserProfile extends YouTubePlayerSupportFragment implements OnIniti
 			     }
 				
 				protected void onPostExecute(Boolean following) {
-			    	String text = "Follow"; 
+			    	String text = getResources().getString(R.string.follow); 
 					if (following) {
-			    		 text = "Unfollow";
+			    		 text = getResources().getString(R.string.unfollow);
 			    	 }
 			    	 m_vwFollowButton.setText(text);
 			     }
@@ -281,9 +281,9 @@ public class UserProfile extends YouTubePlayerSupportFragment implements OnIniti
 			     }
 				
 				protected void onPostExecute(Boolean following) {
-			    	String text = "Follow"; 
+			    	String text = getResources().getString(R.string.follow); 
 					if (following) {
-			    		 text = "Unfollow";
+			    		 text = getResources().getString(R.string.unfollow);
 			    	 }
 			    	 m_vwFollowButton.setText(text);
 			     }
@@ -325,9 +325,9 @@ public class UserProfile extends YouTubePlayerSupportFragment implements OnIniti
 			     }
 				
 				protected void onPostExecute(Boolean following) {
-			    	String text = "Unfollow"; 
+			    	String text = getResources().getString(R.string.unfollow); 
 					if (following) {
-			    		 text = "Follow";
+			    		 text = getResources().getString(R.string.follow);
 			    	 }
 			    	 m_vwFollowButton.setText(text);
 			     }
