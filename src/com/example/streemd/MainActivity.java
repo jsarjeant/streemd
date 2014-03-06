@@ -1,10 +1,12 @@
 package com.example.streemd;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -70,13 +72,30 @@ public class MainActivity extends FragmentActivity {
         	  Bundle args = new Bundle();
         	  args.putString("username", ((StreemdApplication) this.getApplication()).session.getUsername());
         	  fragment.setArguments(args);
+        	  break;
+          case 4:
+        	  ((StreemdApplication) this.getApplication()).session.setUsername(null);
+        	  ((StreemdApplication) this.getApplication()).session.setPassword(null);
+        	  Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+		      startActivity(intent);
+		      return;
        }
         // Insert the fragment by replacing any existing fragment
-       fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
        
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(mPlanetTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
+    }
+    
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            return true;
+        }
+        return false;
     }
 }

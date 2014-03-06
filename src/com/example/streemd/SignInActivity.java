@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -145,5 +146,15 @@ public class SignInActivity extends Activity{
 	public boolean checkCredentials(String username, String password) {
 		return true;
 	}
+	
+	@Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            return true;
+        }
+        return false;
+    }
 
 }
