@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -20,10 +21,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class SignIn_VP extends Activity{
+public class SignInActivity extends Activity{
 	
 	/** Button used for signing in */
 	protected Button m_vwSignInButton;
+	
+	/** Button used for signing in */
+	protected Button m_vwSignUpButton;
 	
 	/** Fills sign in fields with test data*/
 	protected Button m_vwTestCredsButton;
@@ -45,7 +49,16 @@ public class SignIn_VP extends Activity{
 		m_vwUsernameEditText = (EditText) findViewById(R.id.usernameEditText);
 		m_vwPasswordEditText = (EditText) findViewById(R.id.passwordEditText);
 		
+		m_vwSignUpButton = (Button) findViewById(R.id.signUpButton);
+		m_vwSignUpButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+		    	startActivity(intent);
+			}
+		});
+		
 		initSignInListener();
+		
 		super.onCreate(savedInstanceState);
 	}
 	
@@ -74,7 +87,6 @@ public class SignIn_VP extends Activity{
 										in = new Scanner(urls[0].openStream());
 										if(in.hasNextLine()) {
 											String response = in.nextLine();
-											Log.d("RESPONSE: ", response);
 											if(response.equals("true"))
 												success = true;
 										}
@@ -91,16 +103,16 @@ public class SignIn_VP extends Activity{
 
 							     protected void onPostExecute(Boolean success) {
 							    	 if (success) {
-							    		 StreemdApplication appState = ((StreemdApplication) SignIn_VP.this.getApplication());
+							    		 StreemdApplication appState = ((StreemdApplication) SignInActivity.this.getApplication());
 						    			 appState.session.setUsername(username);
 						    			 appState.session.setPassword(password);
 						    			 
-								    	 Intent intent = new Intent(SignIn_VP.this, MainActivity.class);
+								    	 Intent intent = new Intent(SignInActivity.this, MainActivity.class);
 								    	 startActivity(intent);
 							    	 }
 							    	 else {
 							    		 String toastText = "Login Failed";
-							    		 Toast toast = Toast.makeText(SignIn_VP.this, toastText, Toast.LENGTH_SHORT);
+							    		 Toast toast = Toast.makeText(SignInActivity.this, toastText, Toast.LENGTH_SHORT);
 								    	 toast.show();
 							    	 }
 							     }
@@ -134,5 +146,15 @@ public class SignIn_VP extends Activity{
 	public boolean checkCredentials(String username, String password) {
 		return true;
 	}
+	
+	@Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            return true;
+        }
+        return false;
+    }
 
 }

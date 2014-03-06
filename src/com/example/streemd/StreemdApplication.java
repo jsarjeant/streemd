@@ -1,5 +1,7 @@
 package com.example.streemd;
 
+import com.google.android.youtube.player.YouTubePlayer;
+
 import android.app.Application;
 
 public class StreemdApplication extends Application 
@@ -23,4 +25,12 @@ public class StreemdApplication extends Application
     }
 	
 	public SessionInfo session = new SessionInfo();
+	protected YouTubePlayer youTubePlayer;
+	
+	public YouTubePlayer getYouTubePlayer() {
+		return youTubePlayer;
+	}
+	public void setYouTubePlayer(YouTubePlayer youTubePlayer) {
+		this.youTubePlayer = youTubePlayer;
+	}
 }

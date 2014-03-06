@@ -33,7 +33,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
-public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInitializedListener {
+public class UserFeed_VP extends YouTubePlayerSupportFragment implements OnInitializedListener {
    
    protected ArrayList<Post> m_arrPostList;
    
@@ -72,7 +72,7 @@ public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInit
    
    public void checkAndInitializePlayer() {
       FragmentManager fm = getFragmentManager();
-      this.youTubePlayerSupportFragment = new YouTubePlayerSupportFragment();
+      this.youTubePlayerSupportFragment = YouTubePlayerSupportFragment.newInstance();
       FragmentTransaction ft = fm.beginTransaction();
       ft.replace(R.id.youtube_fragment, this.youTubePlayerSupportFragment);
       ft.commit();
@@ -123,7 +123,6 @@ public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInit
                FragmentTransaction ft = fm.beginTransaction();
                ft.show(youTubePlayerSupportFragment);
                ft.commit();
-               
             }
 
             @Override
@@ -144,7 +143,9 @@ public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInit
             }
             
          });
-
+         
+         StreemdApplication appState = ((StreemdApplication) getActivity().getApplication());
+         appState.setYouTubePlayer(this.m_youTubePlayer);
       }
       
    }
@@ -171,7 +172,6 @@ public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInit
 						while(in.hasNext()) {
 							response += " " + in.next();
 						}
-						Log.d("RESPONSE: ", response);
 						
 						Gson gson = new Gson();
 						posts = gson.fromJson(response, new TypeToken<List<Post>>(){}.getType());
@@ -198,5 +198,11 @@ public class UserFeed_VP extends  YouTubePlayerSupportFragment implements OnInit
 		} catch (UnsupportedEncodingException e1) {
 			Log.e(null, e1.toString());
 		} 
+   }
+   
+   @Override
+   public void onDestroyView() {
+	   this.m_youTubePlayer.release();
+	   super.onDestroyView();
    }
 }

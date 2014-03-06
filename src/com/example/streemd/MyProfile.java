@@ -29,9 +29,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class Profile extends YouTubePlayerSupportFragment implements OnInitializedListener{
+public class MyProfile extends YouTubePlayerSupportFragment implements OnInitializedListener{
 	
    protected ArrayList<Post> m_arrPostList;
 	   
@@ -39,6 +40,7 @@ public class Profile extends YouTubePlayerSupportFragment implements OnInitializ
    
    protected ListView m_vwPostLayout;
    protected View rootView;
+   protected TextView m_vwUsernameText;
    
    protected YouTubePlayerSupportFragment youTubePlayerSupportFragment;
    protected Fragment m_videoListFragment;
@@ -47,18 +49,23 @@ public class Profile extends YouTubePlayerSupportFragment implements OnInitializ
    protected final static String BASE_URL = "https://streemd.herokuapp.com/api/";
 	
    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-	   super.onCreateView(inflater, container, savedInstanceState);
-	      
+	  super.onCreateView(inflater, container, savedInstanceState);
+	  
+	  String username = getArguments().get("username").toString();
+	   
       this.m_arrPostList = new ArrayList<Post>();
       this.m_postAdapter = new PostListAdapter(getActivity().getApplicationContext(), this.m_arrPostList);
       
       this.initLayout();
       
-      rootView = inflater.inflate(R.layout.profile, container, false);
-      this.m_vwPostLayout = (ListView) rootView.findViewById(R.id.profileListView);
+      rootView = inflater.inflate(R.layout.my_profile, container, false);
+      this.m_vwPostLayout = (ListView) rootView.findViewById(R.id.my_profile_post_list);
       this.m_vwPostLayout.setAdapter(m_postAdapter);
+      this.m_vwUsernameText = (TextView) rootView.findViewById(R.id.my_username_text);
       
-      getPosts(1);
+      this.m_vwUsernameText.setText(username);
+      
+      getPosts(username, 1);
       
       return rootView;
    }
@@ -69,11 +76,11 @@ public class Profile extends YouTubePlayerSupportFragment implements OnInitializ
    
    public void checkAndInitializePlayer() {
       FragmentManager fm = getFragmentManager();
-      this.youTubePlayerSupportFragment = new YouTubePlayerSupportFragment();
+      this.youTubePlayerSupportFragment = YouTubePlayerSupportFragment.newInstance();
       FragmentTransaction ft = fm.beginTransaction();
-      ft.replace(R.id.youtube_profile_fragment, this.youTubePlayerSupportFragment);
+      ft.replace(R.id.youtube_my_profile_fragment, this.youTubePlayerSupportFragment);
       ft.commit();
-      this.youTubePlayerSupportFragment.initialize(DeveloperKey.DEVELOPER_KEY, Profile.this);
+      this.youTubePlayerSupportFragment.initialize(DeveloperKey.DEVELOPER_KEY, MyProfile.this);
    }
 
    @Override
@@ -132,16 +139,18 @@ public class Profile extends YouTubePlayerSupportFragment implements OnInitializ
             }
             
          });
-
+         
+         StreemdApplication appState = ((StreemdApplication) getActivity().getApplication());
+         appState.setYouTubePlayer(this.m_youTubePlayer);
       }
    }
    public static YouTubePlayer getYouTubePlayer() {
       return m_youTubePlayer;
    }
    
-   public void getPosts(int pageNumber) {
+   public void getPosts(String username, int pageNumber) {
 	   try {
-			URL url =  new URL(BASE_URL + "/posts/get/" + URLEncoder.encode("exampleUser", "UTF-8") + "/All/" + pageNumber);
+			URL url =  new URL(BASE_URL + "/posts/get/" + URLEncoder.encode(username, "UTF-8") + "/All/" + pageNumber);
 			new AsyncTask<URL, Void, Boolean>() {
 				@Override
 				protected Boolean doInBackground(URL... urls) {
@@ -154,7 +163,6 @@ public class Profile extends YouTubePlayerSupportFragment implements OnInitializ
 						while(in.hasNext()) {
 							response += " " + in.next();
 						}
-						Log.d("RESPONSE: ", response);
 						
 						Gson gson = new Gson();
 						posts = gson.fromJson(response, new TypeToken<List<Post>>(){}.getType());
@@ -181,6 +189,12 @@ public class Profile extends YouTubePlayerSupportFragment implements OnInitializ
 		} catch (UnsupportedEncodingException e1) {
 			Log.e(null, e1.toString());
 		} 
+   }
+   
+   @Override
+   public void onDestroyView() {
+	   this.m_youTubePlayer.release();
+	   super.onDestroyView();
    }
       
 }
