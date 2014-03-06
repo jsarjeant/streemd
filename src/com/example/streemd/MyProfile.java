@@ -61,7 +61,7 @@ public class MyProfile extends YouTubePlayerSupportFragment implements OnInitial
       rootView = inflater.inflate(R.layout.my_profile, container, false);
       this.m_vwPostLayout = (ListView) rootView.findViewById(R.id.my_profile_post_list);
       this.m_vwPostLayout.setAdapter(m_postAdapter);
-      this.m_vwUsernameText = (TextView) rootView.findViewById(R.id.username_text);
+      this.m_vwUsernameText = (TextView) rootView.findViewById(R.id.my_username_text);
       
       this.m_vwUsernameText.setText(username);
       

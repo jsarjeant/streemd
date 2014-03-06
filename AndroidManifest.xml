@@ -18,18 +18,18 @@
         <activity
             android:name="com.example.streemd.MainActivity"
             android:label="@string/app_name">
-            <!-- <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter> -->
         </activity> 
         <activity
-            android:name="com.example.streemd.SignIn_VP"
+            android:name="com.example.streemd.SignInActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.streemd.SignUpActivity"
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.example.streemd.UserFeed_VP"
