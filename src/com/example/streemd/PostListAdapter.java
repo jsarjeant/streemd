@@ -2,19 +2,21 @@
 
    import java.util.List;
 
+import android.app.Activity;
    import android.content.Context;
-   import android.view.View;
-   import android.view.ViewGroup;
-   import android.widget.BaseAdapter;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 
    public class PostListAdapter extends BaseAdapter {
       private Context m_context;
-   
       private List<Post> m_postList;
+      private boolean feedView;
    
-      public PostListAdapter(Context context, List<Post> postList) {
+      public PostListAdapter(Context context, List<Post> postList, boolean feedView) {
          this.m_context = context;
          this.m_postList = postList;
+         this.feedView = feedView;
       }
    
       public int getCount() {
@@ -33,12 +35,13 @@
          PostView postView = null;
       
          if (convertView == null) {
-            postView = new PostView(m_context, this.m_postList.get(pos));
+            postView = this.feedView ? new FeedListElement(m_context, this.m_postList.get(pos)) : new SearchListElement(m_context, this.m_postList.get(pos));
          }
          else {
             postView = (PostView) convertView;
          }
+         
          postView.setPost(this.m_postList.get(pos));
-         return postView;
+         return (View) postView;
       }
    }

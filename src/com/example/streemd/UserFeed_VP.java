@@ -43,7 +43,6 @@ public class UserFeed_VP extends YouTubePlayerSupportFragment implements OnIniti
    protected YouTubePlayerSupportFragment youTubePlayerSupportFragment;
    protected Fragment m_videoListFragment;
    protected static YouTubePlayer m_youTubePlayer;
-   protected View rootView;
    
    protected final static String BASE_URL = "https://streemd.herokuapp.com/api/posts";
 
@@ -52,11 +51,11 @@ public class UserFeed_VP extends YouTubePlayerSupportFragment implements OnIniti
       super.onCreateView(inflater, container, savedInstanceState);
       
       this.m_arrPostList = new ArrayList<Post>();
-      this.m_postAdapter = new PostListAdapter(getActivity().getApplicationContext(), this.m_arrPostList);
+      this.m_postAdapter = new PostListAdapter(getActivity().getApplicationContext(), this.m_arrPostList, true);
       
       this.initLayout();
       
-      rootView = inflater.inflate(R.layout.user_feed, container, false);
+      View rootView = inflater.inflate(R.layout.user_feed, container, false);
       this.m_vwPostLayout = (ListView) rootView.findViewById(R.id.postListView);
       this.m_vwPostLayout.setAdapter(m_postAdapter);
       
@@ -72,6 +71,7 @@ public class UserFeed_VP extends YouTubePlayerSupportFragment implements OnIniti
    
    public void checkAndInitializePlayer() {
       FragmentManager fm = getFragmentManager();
+      
       this.youTubePlayerSupportFragment = YouTubePlayerSupportFragment.newInstance();
       FragmentTransaction ft = fm.beginTransaction();
       ft.replace(R.id.youtube_fragment, this.youTubePlayerSupportFragment);

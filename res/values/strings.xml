@@ -39,17 +39,17 @@
     <string name="create_post">Create Post</string>
     <string name="title">Title</string>
     <string name="edit_title">Enter the title.</string>
-    <string name="category">Category</string>
-    <string-array name="categories_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+    
+    <string name="category">Category: </string>
+    <string name="category_prompt">Choose a category</string>
+    <string-array name="category_array">
+        <item>Music</item>
+        <item>Sports</item>
+        <item>Comedy</item>
+        <item>Movies</item>
+        <item>Entertainment</item>
     </string-array>
+    
     <string name="edit_description">Enter a description.</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>

@@ -18,6 +18,7 @@ import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,13 +30,31 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 public class SearchVideos extends Fragment{
    protected EditText m_vwSearchField;
    protected Button m_vwSearchButton;
    protected List<SearchResult> searchResultList;
+   protected OnVideoSearch mCallBack;
    
+   public interface OnVideoSearch {
+      public void goToSearchResults();
+   }
    public void onCreate() {
+   }
+   @Override
+   public void onAttach(Activity activity) {
+       super.onAttach(activity);
+       
+       // This makes sure that the container activity has implemented
+       // the callback interface. If not, it throws an exception
+       try {
+           mCallBack = (OnVideoSearch) activity;
+       } catch (ClassCastException e) {
+           throw new ClassCastException(activity.toString()
+                   + " must implement OnHeadlineSelectedListener");
+       }
    }
    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
       super.onCreateView(inflater, container, savedInstanceState);
@@ -81,19 +100,24 @@ public class SearchVideos extends Fragment{
                            Log.d("Background", i++ + ") " + result.getId().getVideoId() + ": " + result.getSnippet().getTitle());
                         }
                      }
+                     ((StreemdApplication) getActivity().getApplication()).setSearchResultList(searchResultList);
+                     
                   } catch (IOException e) {
                      // TODO Auto-generated catch block
                      e.printStackTrace();
                   }
                   return null;
                }
+               @Override
+               protected void onPostExecute(Boolean b) { 
+                  mCallBack.goToSearchResults();
+               }
             }.execute();
+            
+            
+            
          }
       });
       return view;
-   }
-   
-   public void initLayout() {
-      
    }
 }

@@ -1,6 +1,9 @@
 package com.example.streemd;
 
+import java.util.List;
+
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.api.services.youtube.model.SearchResult;
 
 import android.app.Application;
 
@@ -26,8 +29,15 @@ public class StreemdApplication extends Application
 	
 	public SessionInfo session = new SessionInfo();
 	protected YouTubePlayer youTubePlayer;
+	protected List<SearchResult> searchResultList;
 	
-	public YouTubePlayer getYouTubePlayer() {
+	public List<SearchResult> getSearchResultList() {
+      return searchResultList;
+   }
+   public void setSearchResultList(List<SearchResult> searchResultList) {
+      this.searchResultList = searchResultList;
+   }
+   public YouTubePlayer getYouTubePlayer() {
 		return youTubePlayer;
 	}
 	public void setYouTubePlayer(YouTubePlayer youTubePlayer) {

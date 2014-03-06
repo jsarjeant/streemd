@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/userFeed"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    <fragment
+     android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+     android:id="@+id/youtube_video_search_fragment"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"/>
+    <ListView  
+       android:id="@+id/searchListView"
+       android:orientation="vertical"
+       android:layout_width="fill_parent"
+       android:layout_height="fill_parent"
+       android:descendantFocusability="beforeDescendants"/>
+    
+    <TextView android:id="@android:id/empty"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:padding="10dip"
+       android:text="@string/empty_feed" />
+</LinearLayout>

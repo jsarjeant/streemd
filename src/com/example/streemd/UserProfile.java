@@ -58,7 +58,7 @@ public class UserProfile extends YouTubePlayerSupportFragment implements OnIniti
 	  String otherUser = getArguments().get("username").toString();
 	      
       this.m_arrPostList = new ArrayList<Post>();
-      this.m_postAdapter = new PostListAdapter(getActivity().getApplicationContext(), this.m_arrPostList);
+      this.m_postAdapter = new PostListAdapter(getActivity().getApplicationContext(), this.m_arrPostList, true);
       
       this.initLayout();
       

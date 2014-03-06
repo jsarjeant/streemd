@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
     
-   <LinearLayout android:layout_width="0dp"
+   <LinearLayout android:id="@+id/videoInfo" 
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:orientation="vertical"
       android:layout_weight="0.85"
-      android:padding="10dip" >
+      android:padding="10dip"
+      android:focusable="false" >
       
        <TextView android:id="@+id/postTitle"
             android:text="@string/test_title"
@@ -28,5 +30,6 @@
        android:layout_height="wrap_content"
        android:layout_weight="0.15"
        android:button="@null"
-       android:background="@drawable/dark_play_button" />
+       android:background="@drawable/dark_play_button" 
+       android:focusable="false"/>
 </LinearLayout>

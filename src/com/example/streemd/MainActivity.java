@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements SearchVideos.OnVideoSearch, VideoList.CreatePost{
     private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -97,4 +97,25 @@ public class MainActivity extends FragmentActivity {
         }
         return false;
     }
+
+   @Override
+   public void goToSearchResults() {
+      FragmentManager fm = this.getSupportFragmentManager();
+      Fragment fragment = new VideoList();
+      fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+   }
+
+   @Override
+   public void onVideoSelected(Post post) {
+      FragmentManager fm = this.getSupportFragmentManager();
+      Fragment fragment = new CreatePost();
+      Bundle args = new Bundle();
+      args.putString("id", post.getYoutubeId().toString());
+      args.putString("title", post.getTitle().toString());
+      args.putString("description", post.getDescription().toString());
+      fragment.setArguments(args);
+      fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+   }
+
+   
 }
