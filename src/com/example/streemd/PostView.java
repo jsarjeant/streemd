@@ -1,19 +1,19 @@
    package com.example.streemd;
 
    import com.google.android.youtube.player.YouTubeInitializationResult;
-   import com.google.android.youtube.player.YouTubePlayer;
-   import com.google.android.youtube.player.YouTubePlayer.OnInitializedListener;
-   import com.google.android.youtube.player.YouTubePlayer.Provider;
-   import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayer.OnInitializedListener;
+import com.google.android.youtube.player.YouTubePlayer.Provider;
+import com.google.android.youtube.player.YouTubePlayerView;
 
    import android.content.Context;
-   import android.util.Log;
-   import android.view.LayoutInflater;
-   import android.view.View;
-   import android.widget.Button;
-   import android.widget.LinearLayout;
-   import android.widget.TextView;
-   import android.widget.Toast;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
    public class PostView extends LinearLayout implements OnInitializedListener {
    
@@ -34,18 +34,17 @@
          this.m_vwTitle = (TextView) findViewById(R.id.postTitle);
          this.m_vwDescription = (TextView) findViewById(R.id.postDescription);
          this.m_vwPlayButton = (Button) findViewById(R.id.postPlayButton);
+         this.m_Post = post;
       
          this.m_vwPlayButton.setOnClickListener(
                new OnClickListener() {
                   @Override
                   public void onClick(View arg0) {
-                  /*UserFeed_VP.setPlayerVisibility(View.VISIBLE);
-                  
-                  YouTubePlayerView ytpv = (YouTubePlayerView) findViewById(R.id.youtube_view);
-                  ytpv.initialize(DeveloperKey.DEVELOPER_KEY, PostView.this);*/
-                     YouTubePlayer player = UserFeed_VP.getYouTubePlayer();
-                     player.loadVideo(m_Post.getYoutubeId());
-                     Log.d("jsarjean", "On click function");
+                	  Context context = getContext();
+                	  StreemdApplication appState = (StreemdApplication) getContext();
+                	  
+                      YouTubePlayer player = appState.getYouTubePlayer();
+                      player.loadVideo(m_Post.getYoutubeId());
                   }
                
                });

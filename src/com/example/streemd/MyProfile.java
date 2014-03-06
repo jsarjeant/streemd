@@ -76,7 +76,7 @@ public class MyProfile extends YouTubePlayerSupportFragment implements OnInitial
    
    public void checkAndInitializePlayer() {
       FragmentManager fm = getFragmentManager();
-      this.youTubePlayerSupportFragment = new YouTubePlayerSupportFragment();
+      this.youTubePlayerSupportFragment = YouTubePlayerSupportFragment.newInstance();
       FragmentTransaction ft = fm.beginTransaction();
       ft.replace(R.id.youtube_my_profile_fragment, this.youTubePlayerSupportFragment);
       ft.commit();
@@ -139,7 +139,9 @@ public class MyProfile extends YouTubePlayerSupportFragment implements OnInitial
             }
             
          });
-
+         
+         StreemdApplication appState = ((StreemdApplication) getActivity().getApplication());
+         appState.setYouTubePlayer(this.m_youTubePlayer);
       }
    }
    public static YouTubePlayer getYouTubePlayer() {
@@ -187,6 +189,12 @@ public class MyProfile extends YouTubePlayerSupportFragment implements OnInitial
 		} catch (UnsupportedEncodingException e1) {
 			Log.e(null, e1.toString());
 		} 
+   }
+   
+   @Override
+   public void onDestroyView() {
+	   this.m_youTubePlayer.release();
+	   super.onDestroyView();
    }
       
 }

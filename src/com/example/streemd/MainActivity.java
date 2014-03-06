@@ -56,7 +56,6 @@ public class MainActivity extends FragmentActivity {
         //fragment.setArguments(args);
        Fragment fragment = null;
        FragmentManager fragmentManager = getSupportFragmentManager();
-        
        switch(position) {
           case 0:
              fragment = new UserFeed_VP();
