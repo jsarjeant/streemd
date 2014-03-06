@@ -13,7 +13,7 @@
         android:layout_marginTop="-100dp"
         android:gravity="center"/>
     
-    <EditText android:id="@+id/search_field"
+    <EditText android:id="@+id/search_videos_field"
         android:hint="@string/search_video_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

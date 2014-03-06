@@ -29,6 +29,7 @@
     <string name="search_users">Search Users</string>
     <string name="search_users_hint">Enter User Name</string>
     <string name="search_button_text">Search</string>
+    <string name="search_URL">http://gdata.youtube.com/feeds/api/videos</string>
     
     <string name="create_post">Create Post</string>
     <string name="title">Title</string>
