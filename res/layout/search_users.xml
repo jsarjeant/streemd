@@ -18,8 +18,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     
-    <Button android:id="@+id/search_users_button"
-        android:text="@string/search_button_text"
+    <LinearLayout android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    	android:layout_height="wrap_content">
+    	
+        <Button android:id="@+id/test_user_button"
+	        android:text="TestUser"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" />
+	    
+	    <Button android:id="@+id/search_users_button"
+	        android:text="@string/search_button_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" />
+    	</LinearLayout>
 </LinearLayout>

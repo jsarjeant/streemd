@@ -27,6 +27,7 @@ public class SearchUsers extends Fragment{
 	
 	protected EditText m_vwSearchField;
 	protected Button m_vwSearchButton;
+	protected Button m_vwTestUserButton;
 	
 	protected final static String BASE_URL = "https://streemd.herokuapp.com/api/users/get_by_username/";
 	
@@ -44,11 +45,17 @@ public class SearchUsers extends Fragment{
          }
          
       });
+      this.m_vwTestUserButton = (Button) view.findViewById(R.id.test_user_button);
+      m_vwTestUserButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				m_vwSearchField.setText("exampleUser2");
+			}
+		});
       return view;
    }
    
    public void initLayout() {
-      
+	   
    }
    
    public void searchUsers(String username) {

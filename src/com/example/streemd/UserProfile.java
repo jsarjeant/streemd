@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,7 @@ public class UserProfile extends YouTubePlayerSupportFragment implements OnIniti
    protected ListView m_vwPostLayout;
    protected TextView m_vwUsernameText;
    protected View rootView;
+   protected Button m_vwFollowButton;
    
    protected YouTubePlayerSupportFragment youTubePlayerSupportFragment;
    protected Fragment m_videoListFragment;
@@ -51,7 +54,8 @@ public class UserProfile extends YouTubePlayerSupportFragment implements OnIniti
    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 	  super.onCreateView(inflater, container, savedInstanceState);
 	  
-	  String username = getArguments().get("username").toString();
+	  String currentUser = ((StreemdApplication) getActivity().getApplication()).session.getUsername();
+	  String otherUser = getArguments().get("username").toString();
 	      
       this.m_arrPostList = new ArrayList<Post>();
       this.m_postAdapter = new PostListAdapter(getActivity().getApplicationContext(), this.m_arrPostList);
@@ -63,9 +67,23 @@ public class UserProfile extends YouTubePlayerSupportFragment implements OnIniti
       this.m_vwPostLayout.setAdapter(m_postAdapter);
       this.m_vwUsernameText = (TextView) rootView.findViewById(R.id.username_text);
       
-      this.m_vwUsernameText.setText(username);
+      this.m_vwFollowButton = (Button) rootView.findViewById(R.id.follow_button);
+      m_vwFollowButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				String currentUser = ((StreemdApplication) getActivity().getApplication()).session.getUsername();
+				String otherUser = getArguments().get("username").toString();;
+				Button button = (Button) view;
+				if(button.getText().equals("Follow"))
+					followUser(currentUser, otherUser);
+				else
+					unfollowUser(currentUser, otherUser);
+			}
+		});
       
-      getPosts(username, 1);
+      this.m_vwUsernameText.setText(otherUser);
+      
+      getPosts(otherUser, 1);
+      getFollowing(currentUser, otherUser);
       
       return rootView;
    }
@@ -187,6 +205,138 @@ public class UserProfile extends YouTubePlayerSupportFragment implements OnIniti
 		} catch (UnsupportedEncodingException e1) {
 			Log.e(null, e1.toString());
 		} 
+   }
+   
+   public void getFollowing(String currentUser, String otherUser) {
+	   try {
+		   URL url =  new URL(BASE_URL + "relationships/follow_check/" + URLEncoder.encode(currentUser, "UTF-8") + "/" + URLEncoder.encode(otherUser, "UTF-8"));
+			new AsyncTask<URL, Void, Boolean>() {
+				@Override
+				protected Boolean doInBackground(URL... urls) {
+					Scanner in = null;
+					String response = "";
+					boolean following = false;
+					
+					try {
+						in = new Scanner(urls[0].openStream());
+						if(in.hasNext()) {
+							response = in.next();
+						}
+						
+						if(response.equals("true"))
+							following = true;
+						
+					} catch (IOException e) {
+						Log.d("GetFollowError!", e.toString());
+					} finally {
+						if(in != null) {
+							in.close();
+						}
+					}
+			        return following;
+			     }
+				
+				protected void onPostExecute(Boolean following) {
+			    	String text = "Follow"; 
+					if (following) {
+			    		 text = "Unfollow";
+			    	 }
+			    	 m_vwFollowButton.setText(text);
+			     }
+			}.execute(url);
+		} catch (MalformedURLException e) {
+			Log.e(null, e.toString());
+		} catch (UnsupportedEncodingException e1) {
+			Log.e(null, e1.toString());
+		}
+   }
+   
+   public void followUser(String follower, String followed) {
+	   try {
+		   URL url =  new URL(BASE_URL + "relationships/create/" + URLEncoder.encode(follower, "UTF-8") + "/" + URLEncoder.encode(followed, "UTF-8"));
+			new AsyncTask<URL, Void, Boolean>() {
+				@Override
+				protected Boolean doInBackground(URL... urls) {
+					Scanner in = null;
+					String response = "";
+					boolean following = false;
+					
+					try {
+						in = new Scanner(urls[0].openStream());
+						if(in.hasNext()) {
+							response = in.next();
+						}
+						
+						if(response.equals("success"))
+							following = true;
+						
+					} catch (IOException e) {
+						Log.d("FollowError!", e.toString());
+					} finally {
+						if(in != null) {
+							in.close();
+						}
+					}
+			        return following;
+			     }
+				
+				protected void onPostExecute(Boolean following) {
+			    	String text = "Follow"; 
+					if (following) {
+			    		 text = "Unfollow";
+			    	 }
+			    	 m_vwFollowButton.setText(text);
+			     }
+			}.execute(url);
+		} catch (MalformedURLException e) {
+			Log.e(null, e.toString());
+		} catch (UnsupportedEncodingException e1) {
+			Log.e(null, e1.toString());
+		}
+   }
+   
+   public void unfollowUser(String follower, String followed) {
+	   try {
+		   URL url =  new URL(BASE_URL + "relationships/destroy/" + URLEncoder.encode(follower, "UTF-8") + "/" + URLEncoder.encode(followed, "UTF-8"));
+			new AsyncTask<URL, Void, Boolean>() {
+				@Override
+				protected Boolean doInBackground(URL... urls) {
+					Scanner in = null;
+					String response = "";
+					boolean following = false;
+					
+					try {
+						in = new Scanner(urls[0].openStream());
+						if(in.hasNext()) {
+							response = in.next();
+						}
+						
+						if(response.equals("success"))
+							following = true;
+						
+					} catch (IOException e) {
+						Log.d("UnfollowError!", e.toString());
+					} finally {
+						if(in != null) {
+							in.close();
+						}
+					}
+			        return following;
+			     }
+				
+				protected void onPostExecute(Boolean following) {
+			    	String text = "Unfollow"; 
+					if (following) {
+			    		 text = "Follow";
+			    	 }
+			    	 m_vwFollowButton.setText(text);
+			     }
+			}.execute(url);
+		} catch (MalformedURLException e) {
+			Log.e(null, e.toString());
+		} catch (UnsupportedEncodingException e1) {
+			Log.e(null, e1.toString());
+		}
    }
       
 }
