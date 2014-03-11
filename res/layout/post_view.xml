@@ -27,9 +27,10 @@
    
    <Button android:id="@+id/postPlayButton"
        android:layout_width="0dp"
-       android:layout_height="wrap_content"
+       android:layout_height="45dp"
        android:layout_weight="0.15"
        android:button="@null"
        android:background="@drawable/dark_play_button" 
-       android:focusable="false"/>
+       android:focusable="false"
+       android:layout_gravity="center_vertical"/>
 </LinearLayout>
