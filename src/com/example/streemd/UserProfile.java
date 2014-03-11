@@ -94,7 +94,7 @@ public class UserProfile extends YouTubePlayerSupportFragment implements OnIniti
    
    public void checkAndInitializePlayer() {
       FragmentManager fm = getFragmentManager();
-      this.youTubePlayerSupportFragment = new YouTubePlayerSupportFragment();
+      this.youTubePlayerSupportFragment = YouTubePlayerSupportFragment.newInstance();
       FragmentTransaction ft = fm.beginTransaction();
       ft.replace(R.id.youtube_user_profile_fragment, this.youTubePlayerSupportFragment);
       ft.commit();
@@ -157,7 +157,9 @@ public class UserProfile extends YouTubePlayerSupportFragment implements OnIniti
             }
             
          });
-
+         
+         StreemdApplication appState = ((StreemdApplication) getActivity().getApplication());
+         appState.setYouTubePlayer(this.m_youTubePlayer);
       }
    }
    public static YouTubePlayer getYouTubePlayer() {
