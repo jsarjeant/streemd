@@ -1,17 +1,12 @@
    package com.example.streemd;
 
    import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.google.android.youtube.player.YouTubePlayer;
 
    public class Post {
       private String youtube_id;

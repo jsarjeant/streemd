@@ -77,20 +77,19 @@ public class SignUpActivity extends Activity{
 								+ "/" + URLEncoder.encode(password, "UTF-8")
 								+ "/" + URLEncoder.encode(name, "UTF-8")
 								+ "/" + URLEncoder.encode(email, "UTF-8"));
-						new AsyncTask<URL, Void, Boolean>() {
+						new AsyncTask<URL, Void, String>() {
 							@Override
-							protected Boolean doInBackground(URL... urls) {
-								boolean success = false;
+							protected String doInBackground(URL... urls) {
+								String result = null;
 								Scanner in = null;
 								try {
 									in = new Scanner(urls[0].openStream());
 									if(in.hasNextLine()) {
 										String response = in.nextLine();
 										if(response.equals("success"))
-											success = true;
+											result = "success";
 										else {
-											Toast toast = Toast.makeText(SignUpActivity.this, "Problem with " + response, Toast.LENGTH_SHORT);
-								 			toast.show();
+											result = "Problem with " + response;
 										}
 									}
 								} catch (IOException e) {
@@ -101,11 +100,11 @@ public class SignUpActivity extends Activity{
 									}
 								}
 								
-						        return success;
+						        return result;
 						     }
 
-						     protected void onPostExecute(Boolean success) {
-						    	 if (success) {
+						     protected void onPostExecute(String result) {
+						    	 if (result.equals("success")) {
 						    		 StreemdApplication appState = ((StreemdApplication) SignUpActivity.this.getApplication());
 					    			 appState.session.setUsername(username);
 					    			 appState.session.setPassword(password);
@@ -113,6 +112,11 @@ public class SignUpActivity extends Activity{
 							    	 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
 							    	 startActivity(intent);
 						    	 }
+						    	 else {
+						    		 Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT);
+						    		 toast.show();
+						    	 }
+						    		 
 						     }
 
 						}.execute(url);
