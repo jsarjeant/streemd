@@ -17,16 +17,18 @@ public class MainActivity extends FragmentActivity implements SearchVideos.OnVid
     private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    protected Fragment prevFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		if(((StreemdApplication) this.getApplication()).session.getUsername() == null) {
+			Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+		    startActivity(intent);
+		    return;
+		}
+
         setContentView(R.layout.activity_main);
-        
-        StreemdApplication appState = ((StreemdApplication) this.getApplication());
-        String toastText = "Welcome " +  appState.session.getUsername() + "!";
-		Toast toast = Toast.makeText(this, toastText, Toast.LENGTH_SHORT);
-		toast.show();
         
         mPlanetTitles = getResources().getStringArray(R.array.navigation_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -37,7 +39,8 @@ public class MainActivity extends FragmentActivity implements SearchVideos.OnVid
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         
-        selectItem(0);
+        Fragment fragment = new UserFeed_VP();
+        getSupportFragmentManager().beginTransaction().add(R.id.content_frame, fragment).commit();
     }
     
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -49,11 +52,6 @@ public class MainActivity extends FragmentActivity implements SearchVideos.OnVid
 
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
-        // Create a new fragment and specify the planet to show based on position
-        //Fragment fragment = new Fragment();
-       // Bundle args = new Bundle();
-        //args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-        //fragment.setArguments(args);
        Fragment fragment = null;
        FragmentManager fragmentManager = getSupportFragmentManager();
        switch(position) {
@@ -79,8 +77,8 @@ public class MainActivity extends FragmentActivity implements SearchVideos.OnVid
 		      startActivity(intent);
 		      return;
        }
-        // Insert the fragment by replacing any existing fragment
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+       
+       fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
        
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
