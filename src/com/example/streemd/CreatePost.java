@@ -85,12 +85,8 @@ public class CreatePost extends Fragment{
                   in = new Scanner(urls[0].openStream());
                   if (in.hasNext() && in.nextLine().equals("success")) {
                      success = true;
-                     Log.d("jsarjean", "success");
-                     Toast.makeText(getActivity(), "Create Successful", Toast.LENGTH_SHORT).show();
                   }
                   else {
-                     Log.d("jsarjean", "failed");
-                     Toast.makeText(getActivity(), "Create Failed", Toast.LENGTH_SHORT).show();
                   }
                   
                } catch (IOException e) {
