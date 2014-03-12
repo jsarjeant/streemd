@@ -71,7 +71,6 @@ public class UserFeed_VP extends YouTubePlayerSupportFragment implements OnIniti
    
    public void checkAndInitializePlayer() {
       FragmentManager fm = getFragmentManager();
-      
       this.youTubePlayerSupportFragment = YouTubePlayerSupportFragment.newInstance();
       FragmentTransaction ft = fm.beginTransaction();
       ft.replace(R.id.feed_youtube_containter, this.youTubePlayerSupportFragment);
@@ -85,8 +84,7 @@ public class UserFeed_VP extends YouTubePlayerSupportFragment implements OnIniti
    }
 
    @Override
-   public void onInitializationFailure(Provider arg0,
-      YouTubeInitializationResult arg1) {
+   public void onInitializationFailure(Provider arg0, YouTubeInitializationResult arg1) {
       String toastText = "Video Player initialization failed....";
       Toast toast = Toast.makeText(getActivity(), toastText, Toast.LENGTH_LONG);
       toast.show();
