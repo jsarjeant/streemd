@@ -18,7 +18,8 @@
 		     android:layout_width="wrap_content"
 		     android:layout_height="wrap_content"
 		     android:ems="10" 
-		     android:hint="@string/username">
+		     android:hint="@string/username"
+		     android:text="exampleUser">
 		     <requestFocus />
 		 </EditText>
 		 
@@ -28,31 +29,28 @@
 		     android:layout_height="wrap_content"
 		     android:ems="10" 
 		     android:hint="@string/password"
-		     android:inputType="textPassword">
+		     android:inputType="textPassword"
+		     android:text="foobar">
 		 </EditText>
 		 
         <LinearLayout android:orientation="horizontal"
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content">
 			
-            <Button
-			     android:id="@+id/testSignInButton"
-			     android:layout_width="wrap_content"
-			     android:layout_height="wrap_content"
-			     android:text="@string/test_user" />
-            
 	        <Button
 			     android:id="@+id/signInButton"
 			     android:layout_width="wrap_content"
 			     android:layout_height="wrap_content"
 			     android:text="@string/sign_in" />
-        </LinearLayout>
-		
-        <Button
+	        
+	        <Button
 		     android:id="@+id/signUpButton"
 		     android:layout_width="wrap_content"
 		     android:layout_height="wrap_content"
 		     android:text="@string/sign_up" />
+        </LinearLayout>
+		
+        
         
 
 </LinearLayout>

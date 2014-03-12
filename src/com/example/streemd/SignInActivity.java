@@ -29,9 +29,6 @@ public class SignInActivity extends Activity{
 	/** Button used for signing in */
 	protected Button m_vwSignUpButton;
 	
-	/** Fills sign in fields with test data*/
-	protected Button m_vwTestCredsButton;
-	
 	/** Input for entering username */
 	protected EditText m_vwUsernameEditText;
 	
@@ -45,7 +42,6 @@ public class SignInActivity extends Activity{
 		setContentView(R.layout.sign_in);
 		
 		m_vwSignInButton = (Button) findViewById(R.id.signInButton);
-		m_vwTestCredsButton = (Button) findViewById(R.id.testSignInButton);
 		m_vwUsernameEditText = (EditText) findViewById(R.id.usernameEditText);
 		m_vwPasswordEditText = (EditText) findViewById(R.id.passwordEditText);
 		
@@ -133,12 +129,6 @@ public class SignInActivity extends Activity{
 				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(m_vwUsernameEditText.getWindowToken(), 0);
 				imm.hideSoftInputFromWindow(m_vwPasswordEditText.getWindowToken(), 0);
-			}
-		});
-		m_vwTestCredsButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				m_vwUsernameEditText.setText("exampleUser");
-				m_vwPasswordEditText.setText("foobar");
 			}
 		});
 	}
