@@ -11,6 +11,7 @@ import java.util.Scanner;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SearchUsers extends Fragment{
 	
@@ -61,21 +63,36 @@ public class SearchUsers extends Fragment{
    public void searchUsers(String username) {
 	   try {
 			URL url =  new URL(BASE_URL + URLEncoder.encode(username, "UTF-8"));
-			new AsyncTask<URL, Void, Boolean>() {
+			new AsyncTask<URL, Void, String>() {
 				@Override
-				protected Boolean doInBackground(URL... urls) {
+				protected String doInBackground(URL... urls) {
 					Scanner in = null;
 					String response = "";
-					User user = null;
 					
 					try {
 						in = new Scanner(urls[0].openStream());
 						while(in.hasNext()) {
-							response += " " + in.next();
+							response += in.next() + " ";
 						}
-							
-						Gson gson = new Gson();
-						user = gson.fromJson(response, new TypeToken<User>(){}.getType());
+						
+					} catch (IOException e) {
+						Log.d("GetUserError!", e.toString());
+					} finally {
+						if(in != null) {
+							in.close();
+						}
+					}
+			        return response;
+			     }
+				
+				protected void onPostExecute(String result) {
+			    	 if(result.matches("failure.*")) {
+			    		Toast toast = Toast.makeText(getActivity(), "User not found", Toast.LENGTH_SHORT);
+			    		toast.show();
+			    	 }
+			    	 else {
+			    		Gson gson = new Gson();
+			    		User user = gson.fromJson(result, new TypeToken<User>(){}.getType());
 						
 						FragmentManager fm = getActivity().getSupportFragmentManager();
 			            Fragment f = new UserProfile();
@@ -85,15 +102,8 @@ public class SearchUsers extends Fragment{
 			            
 			            f.setArguments(args);
 			            fm.beginTransaction().replace(R.id.content_frame, f).commit();
-						
-					} catch (IOException e) {
-						Log.d("GetUserError!", e.toString());
-					} finally {
-						if(in != null) {
-							in.close();
-						}
-					}
-			        return false;
+			    	 }
+			    		 
 			     }
 			}.execute(url);
 		} catch (MalformedURLException e) {
