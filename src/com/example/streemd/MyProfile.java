@@ -78,7 +78,7 @@ public class MyProfile extends YouTubePlayerSupportFragment implements OnInitial
       FragmentManager fm = getFragmentManager();
       this.youTubePlayerSupportFragment = YouTubePlayerSupportFragment.newInstance();
       FragmentTransaction ft = fm.beginTransaction();
-      ft.replace(R.id.youtube_my_profile_fragment, this.youTubePlayerSupportFragment);
+      ft.replace(R.id.my_profile_youtube_container, this.youTubePlayerSupportFragment);
       ft.commit();
       this.youTubePlayerSupportFragment.initialize(DeveloperKey.DEVELOPER_KEY, MyProfile.this);
    }

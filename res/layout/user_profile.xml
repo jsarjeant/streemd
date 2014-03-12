@@ -5,11 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <fragment
-     android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
-     android:id="@+id/youtube_user_profile_fragment"
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"/>
+     <FrameLayout android:id="@+id/user_profile_youtube_container" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
     
     <RelativeLayout android:orientation="horizontal"
         android:layout_width="fill_parent"

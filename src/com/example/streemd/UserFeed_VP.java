@@ -53,11 +53,11 @@ public class UserFeed_VP extends YouTubePlayerSupportFragment implements OnIniti
       this.m_arrPostList = new ArrayList<Post>();
       this.m_postAdapter = new PostListAdapter(getActivity().getApplicationContext(), this.m_arrPostList, true);
       
-      this.initLayout();
-      
       View rootView = inflater.inflate(R.layout.user_feed, container, false);
       this.m_vwPostLayout = (ListView) rootView.findViewById(R.id.postListView);
       this.m_vwPostLayout.setAdapter(m_postAdapter);
+      
+      this.initLayout();
       
       getPosts(1);
       
@@ -74,7 +74,7 @@ public class UserFeed_VP extends YouTubePlayerSupportFragment implements OnIniti
       
       this.youTubePlayerSupportFragment = YouTubePlayerSupportFragment.newInstance();
       FragmentTransaction ft = fm.beginTransaction();
-      ft.replace(R.id.youtube_fragment, this.youTubePlayerSupportFragment);
+      ft.replace(R.id.feed_youtube_containter, this.youTubePlayerSupportFragment);
       ft.commit();
       this.youTubePlayerSupportFragment.initialize(DeveloperKey.DEVELOPER_KEY, UserFeed_VP.this);
    }
